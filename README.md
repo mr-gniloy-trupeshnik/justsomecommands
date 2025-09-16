@@ -19,7 +19,7 @@ subnet 10.10.10.0 netmask 255.255.255.0 {
 ## ADD USER TO SUDOERS(alt linux type bs)
 
 > [!WARNING]
-> change username
+> смени username
 
 ``` bash
 sudo su
@@ -32,7 +32,10 @@ sed -i 's/#username ALL=(ALL:ALL) ALL/username ALL=(ALL:ALL) ALL/' /etc/sudoers
 # NGINX REVERSE PROXY
 
 ## Creating apps
-> EG app1
+> [!NOTICE]
+> для примера app1
+> все папки(/app1, /app2, /app3) должны лежать в одной
+
 ```bash
 mkdir app1 && cd app1 && vim app
 ```
