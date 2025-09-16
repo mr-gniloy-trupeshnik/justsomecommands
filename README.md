@@ -38,27 +38,43 @@ OR
 sed -i 's/#username ALL=(ALL:ALL) ALL/username ALL=(ALL:ALL) ALL/' /etc/sudoers
 ```
 # NGINX REVERSE PROXY
-## CREATE SOME APPS
+
+## Creating apps
+> EG app1
 ```bash
-#app1
-while true; do echo -e "HTTP/1.1 200 OK\r\nContent-Length: 20\r\n\r\nHello from app1!" | nc -l -p 3001; done
-#app2
-while true; do echo -e "HTTP/1.1 200 OK\r\nContent-Length: 20\r\n\r\nHello from app2!" | nc -l -p 3002; done
-#app3
-while true; do echo -e "HTTP/1.1 200 OK\r\nContent-Length: 20\r\n\r\nHello from app3!" | nc -l -p 3003; done
+mkdir app1 && cd app1 && vim app
 ```
-## EDIT FILE
+```python
+# app.py
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+class RequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/plain')
+        self.end_headers()
+        self.wfile.write(b'Hello from App 1\n') #CHANGE APP NUMBER
+
+if __name__ == '__main__':
+    server_address = ('', 5001) #CHANGE PORT NUMBER
+    httpd = HTTPServer(server_address, RequestHandler)
+    print('App 1 running at http://localhost:5001/') #CHANGE PORT NUMBER 
+    httpd.serve_forever()
+```
+OR
 ```bash
-mkdir -p /etc/nginx/sites-available/ && touch /etc/nginx/sites-available/reverse-proxy.conf && sudo vim /etc/nginx/sites-available/reverse-proxy.conf
+mkdir -p app1 app2 app3 && echo -e "from http.server import BaseHTTPRequestHandler, HTTPServer\n\nclass RequestHandler(BaseHTTPRequestHandler):\n    def do_GET(self):\n        self.send_response(200)\n        self.send_header('Content-type', 'text/plain')\n        self.end_headers()\n        self.wfile.write(b'Hello from App 1\\n')\n\nif __name__ == '__main__':\n    server_address = ('', 5001)\n    httpd = HTTPServer(server_address, RequestHandler)\n    print('App 1 running at http://localhost:5001/')\n    httpd.serve_forever()" > app1/app.py && echo -e "from http.server import BaseHTTPRequestHandler, HTTPServer\n\nclass RequestHandler(BaseHTTPRequestHandler):\n    def do_GET(self):\n        self.send_response(200)\n        self.send_header('Content-type', 'text/plain')\n        self.end_headers()\n        self.wfile.write(b'Hello from App 2\\n')\n\nif __name__ == '__main__':\n    server_address = ('', 5002)\n    httpd = HTTPServer(server_address, RequestHandler)\n    print('App 2 running at http://localhost:5002/')\n    httpd.serve_forever()" > app2/app.py && echo -e "from http.server import BaseHTTPRequestHandler, HTTPServer\n\nclass RequestHandler(BaseHTTPRequestHandler):\n    def do_GET(self):\n        self.send_response(200)\n        self.send_header('Content-type', 'text/plain')\n        self.end_headers()\n        self.wfile.write(b'Hello from App 3\\n')\n\nif __name__ == '__main__':\n    server_address = ('', 5003)\n    httpd = HTTPServer(server_address, RequestHandler)\n    print('App 3 running at http://localhost:5003/')\n    httpd.serve_forever()" > app3/app.py
 ```
-### /etc/nginx/sites-available/reverse-proxy.conf
+## ADDING NGINX CONFIG
+```bash
+sudo mkdir -p /etc/nginx/sites-available && sudo touch /etc/nginx/sites-available/rev_proxy.conf && sudo vim /etc/nginx/sites-available/rev_proxy.conf
+```
 ```nginx
 server {
-    listen 80;  # port 80
-    server_name localhost;  # domain
+    listen 80;
 
     location /app1 {
-        proxy_pass http://localhost:3001;
+        proxy_pass http://localhost:5001;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -66,7 +82,7 @@ server {
     }
 
     location /app2 {
-        proxy_pass http://localhost:3002;
+        proxy_pass http://localhost:5002;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -74,7 +90,7 @@ server {
     }
 
     location /app3 {
-        proxy_pass http://localhost:3003;
+        proxy_pass http://localhost:5003;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -82,11 +98,9 @@ server {
     }
 }
 ```
-## Link stuff
+## LINKING STUFF AND STARTING NGINX
 ```bash
-sudo ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enabled/
-```
-## Start and check
-```bash
-sudo systemctl restart nginx && sudo systemctl status nginx  
+sudo ln -s /etc/nginx/sites-available/test_apps /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
 ```
