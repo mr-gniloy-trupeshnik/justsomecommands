@@ -1,0 +1,15 @@
+#alt-dhcp
+#install service
+apt-get install dhcp-server
+systemctl enable --now dhcp server
+
+
+#FOR 10.10.10.0
+subnet 10.10.10.0 netmask 255.255.255.0 {
+        option routers                  10.10.10.11;
+        option subnet-mask              255.255.255.0;
+        option domain-search              "alt.org";
+        #option domain-name-servers       10.10.10.11;
+        #option time-offset              -18000;     # Eastern Standard Time
+	range 10.10.10.100 10.10.10.200;
+}
