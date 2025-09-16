@@ -5,6 +5,7 @@ systemctl enable --now dhcp server
 
 
 #FOR 10.10.10.0
+#/etc/dhcp/dhcpd.conf
 subnet 10.10.10.0 netmask 255.255.255.0 {
         option routers                  10.10.10.11;
         option subnet-mask              255.255.255.0;
@@ -13,3 +14,7 @@ subnet 10.10.10.0 netmask 255.255.255.0 {
         #option time-offset              -18000;     # Eastern Standard Time
 	range 10.10.10.100 10.10.10.200;
 }
+#ctrl c ctrl v
+#!!FROM ROOT!!
+echo -e 'subnet 10.10.10.0 netmask 255.255.255.0 {\n\toption routers 10.10.10.11;\n\toption subnet-mask 255.255.255.0;\n\toption domain-search "alt.org";\n\t#option domain-name-servers 10.10.10.11;\n\t#option time-offset -18000; # Eastern Standard Time\n\trange 10.10.10.100 10.10.10.200;\n}' | sudo tee -a /etc/dhcp/dhcpd.conf
+
