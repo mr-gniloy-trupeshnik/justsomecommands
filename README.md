@@ -74,7 +74,7 @@ cd /home/client/test_apps
 ```
 ## ADDING NGINX CONFIG
 ```bash
-sudo mkdir -p /etc/nginx/sites-available && sudo touch /etc/nginx/sites-available/rev_proxy.conf && sudo vim /etc/nginx/sites-available/rev_proxy.conf
+sudo mkdir -p /etc/nginx/sites-available && sudo touch /etc/nginx/sites-available/rev-proxy.conf && sudo vim /etc/nginx/sites-available/rev_proxy.conf
 ```
 ```nginx
 server {
