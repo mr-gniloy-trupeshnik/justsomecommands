@@ -39,8 +39,6 @@ sed -i 's/#username ALL=(ALL:ALL) ALL/username ALL=(ALL:ALL) ALL/' /etc/sudoers
 ```
 # NGINX REVERSE PROXY
 ## CREATE SOME APPS
-> 
-
 ```bash
 #app1
 while true; do echo -e "HTTP/1.1 200 OK\r\nContent-Length: 20\r\n\r\nHello from app1!" | nc -l -p 3001; done
@@ -48,6 +46,7 @@ while true; do echo -e "HTTP/1.1 200 OK\r\nContent-Length: 20\r\n\r\nHello from 
 while true; do echo -e "HTTP/1.1 200 OK\r\nContent-Length: 20\r\n\r\nHello from app2!" | nc -l -p 3002; done
 #app3
 while true; do echo -e "HTTP/1.1 200 OK\r\nContent-Length: 20\r\n\r\nHello from app3!" | nc -l -p 3003; done
+```
 ## EDIT FILE
 ```bash
 mkdir -p /etc/nginx/sites-available/ && touch /etc/nginx/sites-available/reverse-proxy.conf && sudo vim /etc/nginx/sites-available/reverse-proxy.conf
