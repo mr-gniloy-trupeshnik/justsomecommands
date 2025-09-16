@@ -40,16 +40,16 @@ sed -i 's/#username ALL=(ALL:ALL) ALL/username ALL=(ALL:ALL) ALL/' /etc/sudoers
 # NGINX REVERSE PROXY
 ## EDIT FILE
 ```bash
-sudo vim /etc/nginx/sites-available/reverse-proxy.conf
+mkdir -p /etc/nginx/sites-available/ touch /etc/nginx/sites-available/reverse-proxy.conf && sudo vim /etc/nginx/sites-available/reverse-proxy.conf
 ```
 ### /etc/nginx/sites-available/reverse-proxy.conf
 ```nginx
 server {
-    listen 80;  # Listen on port 80
-    server_name your-domain.com;  # Replace with your domain or IP
+    listen 80;  # port 80
+    server_name alt.org;  # domain
 
     location /app1 {
-        proxy_pass http://localhost:3001;  # Redirect to port 3001
+        proxy_pass http://localhost:3001;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -57,7 +57,7 @@ server {
     }
 
     location /app2 {
-        proxy_pass http://localhost:3002;  # Redirect to port 3002
+        proxy_pass http://localhost:3002;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -65,7 +65,7 @@ server {
     }
 
     location /app3 {
-        proxy_pass http://localhost:3003;  # Redirect to port 3003
+        proxy_pass http://localhost:3003;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -79,5 +79,5 @@ sudo ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enable
 ```
 ## Start and check
 ```bash
-sudo systemctl restart nginx ; sudo systemctl status nginx  
+sudo systemctl restart nginx && sudo systemctl status nginx  
 ```
