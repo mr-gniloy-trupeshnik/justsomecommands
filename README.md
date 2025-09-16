@@ -107,7 +107,7 @@ server {
 ```
 ## LINKING STUFF AND STARTING NGINX
 ```bash
-sudo ln -s /etc/nginx/sites-available/test_apps /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/rev-proxy.conf /etc/nginx/sites-enabled.d/
 sudo nginx -t
 sudo systemctl restart nginx
 ```
