@@ -1,11 +1,3 @@
-
-# CONTENTS
-## TABLE OF USEFUL STUFF
-| __WHATS INSIDE__  | LINK |
-| ------------- | ------------- |
-| DHCP          | [CLICK ME](https://github.com/mr-gniloy-trupeshnik/justsomecommands/blob/main/alt-dhcp) |
-| Content Cell  | Content Cell  |
-
 # HERE WE GO
 ## DHCP
 ```bash
@@ -44,6 +36,7 @@ sed -i 's/#username ALL=(ALL:ALL) ALL/username ALL=(ALL:ALL) ALL/' /etc/sudoers
 ```bash
 mkdir app1 && cd app1 && vim app
 ```
+### ~/test_apps/app1/app.py
 ```python
 # app.py
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -61,13 +54,10 @@ if __name__ == '__main__':
     print('App 1 running at http://localhost:5001/') #CHANGE PORT NUMBER 
     httpd.serve_forever()
 ```
-OR
-```bash
-cd
-mkdir test_apps && cd test_apps
-mkdir -p app1 app2 app3 && echo -e "from http.server import BaseHTTPRequestHandler, HTTPServer\n\nclass RequestHandler(BaseHTTPRequestHandler):\n    def do_GET(self):\n        self.send_response(200)\n        self.send_header('Content-type', 'text/plain')\n        self.end_headers()\n        self.wfile.write(b'Hello from App 1\\n')\n\nif __name__ == '__main__':\n    server_address = ('', 5001)\n    httpd = HTTPServer(server_address, RequestHandler)\n    print('App 1 running at http://localhost:5001/')\n    httpd.serve_forever()" > app1/app.py && echo -e "from http.server import BaseHTTPRequestHandler, HTTPServer\n\nclass RequestHandler(BaseHTTPRequestHandler):\n    def do_GET(self):\n        self.send_response(200)\n        self.send_header('Content-type', 'text/plain')\n        self.end_headers()\n        self.wfile.write(b'Hello from App 2\\n')\n\nif __name__ == '__main__':\n    server_address = ('', 5002)\n    httpd = HTTPServer(server_address, RequestHandler)\n    print('App 2 running at http://localhost:5002/')\n    httpd.serve_forever()" > app2/app.py && echo -e "from http.server import BaseHTTPRequestHandler, HTTPServer\n\nclass RequestHandler(BaseHTTPRequestHandler):\n    def do_GET(self):\n        self.send_response(200)\n        self.send_header('Content-type', 'text/plain')\n        self.end_headers()\n        self.wfile.write(b'Hello from App 3\\n')\n\nif __name__ == '__main__':\n    server_address = ('', 5003)\n    httpd = HTTPServer(server_address, RequestHandler)\n    print('App 3 running at http://localhost:5003/')\n    httpd.serve_forever()" > app3/app.py
-```
+
 ## START ALL THE TEST APPS
+> [!TIP]
+> если они в /home/client/test_apps
 ```bash
 cd /home/client/test_apps
 (cd app1 && python3 app.py &) && (cd app2 && python3 app.py &) && (cd app3 && python3 app.py &)
@@ -76,6 +66,7 @@ cd /home/client/test_apps
 ```bash
 sudo mkdir -p /etc/nginx/sites-available && sudo touch /etc/nginx/sites-available/rev-proxy.conf && sudo vim /etc/nginx/sites-available/rev_proxy.conf
 ```
+###  /etc/nginx/sites-available/rev-proxy.conf  
 ```nginx
 server {
     listen 80;
