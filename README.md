@@ -37,3 +37,47 @@ OR
 ```bash
 sed -i 's/#username ALL=(ALL:ALL) ALL/username ALL=(ALL:ALL) ALL/' /etc/sudoers
 ```
+# NGINX REVERSE PROXY
+## EDIT FILE
+```bash
+sudo vim /etc/nginx/sites-available/reverse-proxy.conf
+```
+### /etc/nginx/sites-available/reverse-proxy.conf
+```nginx
+server {
+    listen 80;  # Listen on port 80
+    server_name your-domain.com;  # Replace with your domain or IP
+
+    location /app1 {
+        proxy_pass http://localhost:3001;  # Redirect to port 3001
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /app2 {
+        proxy_pass http://localhost:3002;  # Redirect to port 3002
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /app3 {
+        proxy_pass http://localhost:3003;  # Redirect to port 3003
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+## Link stuff
+```bash
+sudo ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enabled/
+```
+## Start and check
+```bash
+sudo systemctl restart nginx ; sudo systemctl status nginx  
+```
