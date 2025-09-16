@@ -32,8 +32,7 @@ sed -i 's/#username ALL=(ALL:ALL) ALL/username ALL=(ALL:ALL) ALL/' /etc/sudoers
 # NGINX REVERSE PROXY
 
 ## Creating apps
-> [!NOTICE]
-> для примера app1
+> [!NOTE]
 > все папки(/app1, /app2, /app3) должны лежать в одной
 
 ```bash
