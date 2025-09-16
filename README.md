@@ -40,7 +40,7 @@ sed -i 's/#username ALL=(ALL:ALL) ALL/username ALL=(ALL:ALL) ALL/' /etc/sudoers
 # NGINX REVERSE PROXY
 ## EDIT FILE
 ```bash
-mkdir -p /etc/nginx/sites-available/ touch /etc/nginx/sites-available/reverse-proxy.conf && sudo vim /etc/nginx/sites-available/reverse-proxy.conf
+mkdir -p /etc/nginx/sites-available/ && touch /etc/nginx/sites-available/reverse-proxy.conf && sudo vim /etc/nginx/sites-available/reverse-proxy.conf
 ```
 ### /etc/nginx/sites-available/reverse-proxy.conf
 ```nginx
